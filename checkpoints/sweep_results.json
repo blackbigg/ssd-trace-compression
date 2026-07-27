@@ -1,0 +1,65 @@
+[
+  {
+    "latent_dim": 2,
+    "compression_ratio": "64.0x",
+    "test_f1": 0.9171025563614151,
+    "test_auc": 0.9934889849488009,
+    "test_acc": 0.9600433171458062,
+    "test_nmse_cont": 0.552012033575402,
+    "test_bce_write": 0.06770350855496832
+  },
+  {
+    "latent_dim": 4,
+    "compression_ratio": "32.0x",
+    "test_f1": 0.9184775320944873,
+    "test_auc": 0.9938479480246872,
+    "test_acc": 0.96090966006193,
+    "test_nmse_cont": 0.5090794414045339,
+    "test_bce_write": 0.03683722388263979
+  },
+  {
+    "latent_dim": 8,
+    "compression_ratio": "16.0x",
+    "test_f1": 0.9162876318861964,
+    "test_auc": 0.9938225796441491,
+    "test_acc": 0.9604494153877392,
+    "test_nmse_cont": 0.44177927470037376,
+    "test_bce_write": 0.028760656540343734
+  },
+  {
+    "latent_dim": 16,
+    "compression_ratio": "8.0x",
+    "test_f1": 0.9190613888235538,
+    "test_auc": 0.9938828973635567,
+    "test_acc": 0.9604054214115298,
+    "test_nmse_cont": 0.3327783386180517,
+    "test_bce_write": 0.024942580806450884
+  },
+  {
+    "latent_dim": 24,
+    "compression_ratio": "5.3x",
+    "test_f1": 0.9175950920245399,
+    "test_auc": 0.9936536749662733,
+    "test_acc": 0.960226061354676,
+    "test_nmse_cont": 0.25014550832052573,
+    "test_bce_write": 0.022034631573090782
+  },
+  {
+    "latent_dim": 32,
+    "compression_ratio": "4.0x",
+    "test_f1": 0.9173432250839866,
+    "test_auc": 0.9936034212771485,
+    "test_acc": 0.9600331646897579,
+    "test_nmse_cont": 0.19516900450121835,
+    "test_bce_write": 0.017428815157538437
+  },
+  {
+    "latent_dim": 64,
+    "compression_ratio": "2.0x",
+    "test_f1": 0.9137896166180337,
+    "test_auc": 0.9936416180373298,
+    "test_acc": 0.9596067615357282,
+    "test_nmse_cont": 0.06523192756393723,
+    "test_bce_write": 0.008634781760163874
+  }
+]

@@ -1,0 +1,23 @@
+# === 忽略資料集 (Large Datasets) ===
+nouse/
+*.csv
+*.csv.gz
+*.pt
+*.pth
+*.bin
+
+# 但是要保留 images 或 checkpoints 中的圖片與 json
+!images/*.png
+!checkpoints/*.png
+!checkpoints/*.json
+
+# === 忽略 Python 暫存與環境 ===
+__pycache__/
+*.pyc
+.pytest_cache/
+_tmp_*
+
+# === 忽略編輯器與 IDE 設定 ===
+.vscode/
+.idea/
+*.swp
