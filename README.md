@@ -1,3 +1,13 @@
+# SSD Trace Access Pattern Compression and Hot/Cold Classification via Dual-Head Autoencoder
+
+> **Executive Summary (TL;DR)**
+> * **Objective**: Applied a 1D Conv + Squeeze-and-Excitation (SE) Attention Autoencoder to compress SSD I/O Traces while preserving downstream Hot/Cold data classification usability in edge computing environments.
+> * **Key Results**: Reduced 128-dimensional trace features to a **2D latent space (64x compression)** while achieving a **Test F1-Score of 0.9171**, outperforming the uncompressed 128-dim XGBoost Baseline (F1 = 0.9115).
+> * **Edge Feasibility**: Achieved **INT8 dynamic quantization size of 190 KB** (3.12x model reduction) with zero accuracy degradation, proving 100% SRAM-friendly feasibility for storage controllers.
+> * **Methodology**: Evaluated on MSR Cambridge Traces with zero-leakage chronological split and buffer window isolation.
+
+---
+
 # SSD 儲存系統存取軌跡壓縮與熱冷資料分類之研究：基於深度學習潛在表示的實證分析
 
 **摘要**
