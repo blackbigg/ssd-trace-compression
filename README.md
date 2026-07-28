@@ -1,6 +1,6 @@
-# 📊 實驗結果與泛化能力分析 (Experimental Results & Generalization)
+# 實驗結果與泛化能力分析 (Experimental Results & Generalization)
 
-為驗證模型在資源受限環境下的表現，以及跨資料集（Cross-Dataset / Domain Transfer）的泛化能力，使用異質 Workload 訓練模型，並回到目標 Workload 進行零樣本推論評估。
+為驗證模型在資源受限環境下的效能，以及跨資料集（Cross-Dataset）的泛化能力，我們採用異質資料集進行訓練，並針對目標資料集進行零樣本（Zero-shot）推論評估。
 
 ---
 
@@ -18,7 +18,7 @@
 | **32** | 4.0x | 0.9746 | 0.9992 | 0.1802 | 0.0211 |
 | **64** | 2.0x | 0.9753 | 0.9991 | 0.0608 | 0.0078 |
 
-> 📌 **關鍵發現**：即使在 $z = 2$（**64x** 極限壓縮）下，模型的 F1-Score 依然維持在 $0.9772$ 的最高水準，顯示分類任務不需要高維度資料即可精準判定。
+> **關鍵發現**：即使在 $z = 2$（**64x** 極限壓縮）下，模型的 F1-Score 依然維持在 $0.9772$ 的最高水準，顯示分類任務不需要高維度資料即可精準判定。
 
 ---
 
@@ -43,7 +43,7 @@
 
 ---
 
-## 💡 實驗結論 (Key Takeaways)
+## 實驗結論 (Key Takeaways)
 
-1. **跨資料集泛化強（Robust Generalization）**：模型未過度擬合特定位址記憶，能跨 Workload 提取通用的物理特徵。
-2. **極致硬體親和度（Edge Deployment Ready）**：僅需 **2 個維度（64x 壓縮）** 即可實現 **F1-Score = 0.9772**，極大幅度降低了邊緣控制器（SSD Controller）推論時的 SRAM 記憶體佔用與運算延遲。
+1. **強健的跨資料集泛化能力（Robust Generalization）**：模型並未過度擬合特定的 LBA 位址，而是能跨資料集擷取出通用的存取行為特徵。
+2. **極佳的邊緣部署優勢（Edge Deployment Ready）**：僅需 **2 個latent維度（64x 壓縮）** 即可實現 **F1-Score = 0.9772**，能大幅降低 SSD 控制器（SSD Controller）現場推論時的 SRAM 記憶體開銷與運算延遲。
