@@ -1,6 +1,6 @@
 # 📊 實驗結果與泛化能力分析 (Experimental Results & Generalization)
 
-為驗證模型在資源受限環境下的表現，以及跨資料集（Cross-Dataset / Domain Transfer）的泛化能力，我們使用異質 Workload 訓練模型，並回到目標 Workload 進行零樣本推論評估。
+為驗證模型在資源受限環境下的表現，以及跨資料集（Cross-Dataset / Domain Transfer）的泛化能力，使用異質 Workload 訓練模型，並回到目標 Workload 進行零樣本推論評估。
 
 ---
 
