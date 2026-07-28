@@ -235,8 +235,8 @@ def save_processed_data(train_dataset, test_dataset, save_path, future_lookahead
 # ==========================================
 if __name__ == "__main__":
     data_dir = Path(r"d:\SNIA_data")
-    file_path = data_dir / "proj_1.csv.gz"
-    output_pt_path = data_dir / "processed_proj_1_split.pt"
+    file_path = data_dir / "proj_2.csv.gz"
+    output_pt_path = data_dir / "processed_proj_2_split.pt"
 
     WINDOW_SIZE = 32
     STRIDE = 16

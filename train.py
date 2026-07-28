@@ -20,7 +20,7 @@ from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_sc
 from model import DualHeadTraceModel, compute_hybrid_recon_loss
 
 
-PROCESSED_PT_PATH = Path(r"d:\SNIA_data\processed_proj_1_split.pt")
+PROCESSED_PT_PATH = Path(r"d:\SNIA_data\processed_proj_2_split.pt")
 CHECKPOINT_DIR = Path(r"d:\SNIA_data\checkpoints")
 RESULTS_JSON_PATH = CHECKPOINT_DIR / "sweep_results.json"
 
