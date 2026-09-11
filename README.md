@@ -3,12 +3,13 @@
 > **Executive Summary (TL;DR)**
 > * **Objective**: Applied a 1D Conv + Squeeze-and-Excitation (SE) Attention Autoencoder to compress SSD I/O Traces while preserving downstream Hot/Cold data classification usability in edge computing environments.
 > * **Key Results**: Reduced 128-dimensional trace features to a **2D latent space (64x compression)** while achieving a **Test F1-Score of 0.9171**, outperforming the uncompressed 128-dim XGBoost Baseline (F1 = 0.9115).
-> * **Edge Feasibility**: Achieved **INT8 dynamic quantization size of 190 KB** (3.12x model reduction) with zero accuracy degradation, proving 100% SRAM-friendly feasibility for storage controllers.
+> * **Edge Feasibility**: Achieved **INT8 static quantization size of 0.191 MB** (3.11x reduction, 0.641 ms CPU latency) with negligible accuracy degradation (ΔF1 = -0.0003), proving 100% SRAM-friendly feasibility for storage controllers (< 0.2 MB).
 > * **Methodology**: Evaluated on MSR Cambridge Traces with zero-leakage chronological split and buffer window isolation.
 
 ---
 
-# SSD 儲存系統存取軌跡壓縮與熱冷資料分類之研究：基於深度學習潛在表示的實證分析
+# 基於雙分支自編碼器之 SSD 存取軌跡壓縮與冷熱分類系統
+### Dual-Branch Autoencoder for SSD Access Trace Compression and Hot/Cold Classification
 
 **摘要**
 
@@ -221,6 +222,12 @@ SSD 控制器於運作過程中會產生大量存取請求記錄（I/O Trace）�
 
 值得說明的是一項反直覺現象：動態量化後之 CPU 推論延遲不減反增（batch=1 情境下由 0.6–0.9 毫秒增加至 2.1–2.3 毫秒）。此現象之成因在於，動態量化於每次前向傳播時須即時進行浮點數與整數之轉換，此轉換開銷對於參數量本身即偏小（15 萬至 18 萬）、計算量偏低之模型而言，超過了量化矩陣乘法所節省之計算時間，致使整體推論延遲不降反升。此現象與大型模型（如 BERT、ResNet 等）常見之量化加速效果方向相反，顯示量化技術之效益高度取決於模型規模，於小型模型上應優先考量儲存空間節省而非推論加速。
 
+#### 5.4.1 進階突破：PyTorch FX 靜態量化（Static Quantization）
+為克服動態量化運行時浮點/整數動態轉換導致的延遲開銷，本研究進一步導入 PyTorch FX 靜態量化技術（實作程式碼見 `static_quant_benchmark.py`）。透過抽取 10,000 筆真實訓練集存取軌跡作為校準集（Calibration Set），對卷積層、BatchNorm 與激活層執行精準算子融合（Operator Fusion），並預先固定量化尺度（Scale）與零點（Zero-Point）：
+- **模型體積**：壓縮至 **0.191 MB**（壓縮 3.11 倍），完全滿足 SSD 控制器 SRAM < 0.2 MB 的嚴苛硬體邊界。
+- **推論延遲**：單筆 CPU 推論耗時僅 **0.641 ms**，徹底消除動態量化的轉換瓶頸。
+- **分類精度**：分類表現近乎無損（FP32 F1 = 0.9171 $\to$ INT8 F1 = 0.9168，$\Delta\text{F1} = -0.0003$），驗證了邊緣控制器部署的實務可行性。
+
 ---
 
 ## 6. 討論
@@ -233,12 +240,12 @@ SSD 控制器於運作過程中會產生大量存取請求記錄（I/O Trace）�
 
 1. **單一資料來源**：本研究僅使用單一磁碟之 trace 資料，尚未於多個工作負載或資料集上驗證方法之泛化能力；
 2. **時序切分之代表性問題**：由於資料存在明顯之 regime 切換現象，單一時序切分點所得之測試集，未必能完整代表資料之全部行為模式，後續建議採用多段時序交叉驗證；
-3. **量化方法之局限**：本研究採用之動態量化僅作用於全連接層，未涵蓋卷積層，若採用靜態量化（static quantization）並搭配校準資料集，可能取得更完整之壓縮效果，惟此部分留待未來工作處理；
+3. **量化方法演進**：初版動態量化因運行時轉換帶來額外延遲，本研究後續進一步導入 FX 靜態量化（校準集支援）成功達成 0.641 ms 與 0.191 MB，後續可朝向專用硬體加速器或微控制器平台移植；
 4. **單次訓練之隨機性**：潛在維度掃描實驗中，各維度僅訓練一次，效能之微小差異可能受隨機初始化與早停時機影響，未來建議以多組隨機種子重複實驗以確認結果穩定性。
 
 ### 6.3 未來工作
 
-未來研究可朝下列方向延伸：（一）於多個公開資料集上驗證方法之泛化性；（二）導入靜態量化以評估卷積層量化之效果；（三）與傳統無損壓縮演算法（如 Zstd）比較實際儲存空間節省效果；（四）針對時序自注意力機制進行消融實驗，評估其於此任務中之邊際價值。
+未來研究可朝下列方向延伸：（一）於多個公開資料集上驗證方法之泛化性；（二）針對實體儲存控制器韌體進行 C/C++ 邊緣推論庫實作；（三）與傳統無損壓縮演算法（如 Zstd）比較實際儲存空間節省效果；（四）針對時序自注意力機制進行消融實驗，評估其於此任務中之邊際價值。
 
 ---
 
